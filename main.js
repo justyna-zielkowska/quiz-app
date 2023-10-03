@@ -54,4 +54,66 @@ const quizArray =
         }
     ];
 
-  
+//Display quiz
+
+const quizDisplay = (questionCount) => {
+    const quizCards = document.querySelectorAll(".container-mid");
+    //hide other cards
+    quizCards.forEach((card) => {
+        card.classList.add("hide");
+    });
+    //display current question card
+    quizCards[questionCount].classList.remove("hide");
+};
+
+// Quiz Creation
+function quizCreator() {
+    //randomly sort questions
+    quizArray.sort(() => Math.random() - 0.5);
+    //generate quiz
+    for (let i of quizArray) {
+        //ramdomly sort options
+        i.options.sort(() => Math.random() - 0.5);
+        //quiz cart creation
+        const div = document.createElement("div");
+        div.classList.add("container-mid", "hide");
+        //question number
+        countOfQuestion.innerHTML = 1 + " of " + quizArray.length + " Question";
+        //question
+        const question_DIV = document.createElement("p");
+        question_DIV.classList.add("question");
+        question_DIV.innerHTML = i.question;
+        div.appendChild(question_DIV);
+        //options
+        div.innerHTML += `
+            <button class="option-div" onclick="checker(this)">${i.options[0]}<button>
+            <button class="option-div" onclick="checker(this)">${i.options[1]}<button>
+            <button class="option-div" onclick="checker(this)">${i.options[2]}<button>
+            <button class="option-div" onclick="checker(this)">${i.options[3]}<button>`;
+        quizContainer.appendChild(div);
+    };
+};
+
+
+//initialize setup
+function initial() {
+    quizContainer.innerHTML = "";
+    questionCount = 0;
+    scoreCount = 0;
+    count = 11;
+    quizCreator();
+    quizDisplay(questionCount);
+};
+
+//when user click on start button
+startButton.addEventListener("click", () => {
+    startScreen.classList.add("hide");
+    displayContainer.classList.remove("hide");
+    initial();
+})
+
+//Hide quiz and display start screen
+window.onload = () => {
+    startScreen.classList.remove("hide");
+    displayContainer.classList.add("hide")
+};
