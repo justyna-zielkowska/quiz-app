@@ -54,6 +54,20 @@ const quizArray =
         }
     ];
 
+// Timer
+
+const timerDisplay = () => {
+    countdown = setInterval(() => {
+        count--;
+        timeLeft.innerHTML = `${count}s`;
+        if ( count == 0) {
+            clearInterval(countdown);
+            displayNext();
+        };
+    }, 1000);
+};
+
+
 //Display quiz
 
 const quizDisplay = (questionCount) => {
@@ -101,6 +115,8 @@ function initial() {
     questionCount = 0;
     scoreCount = 0;
     count = 11;
+    clearInterval(countdown);
+    timerDisplay();
     quizCreator();
     quizDisplay(questionCount);
 };
