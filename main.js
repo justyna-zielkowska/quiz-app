@@ -11,14 +11,14 @@
 //Charless Babbage
 
 //References
-const timeLeft = document.querySelector(".time-left");
 
+const timeLeft = document.querySelector(".time-left");
 const quizContainer = document.getElementById("container");
 const nextBtn = document.getElementById("next-button");
 const countOfQuestion = document.querySelector(".number-of-question");
 const displayContainer = document.getElementById("display-container");
 const scoreContainer = document.querySelector(".score-container");
-const restart = document.getElementById(".restart");
+const restart = document.getElementById("restart");
 const userScore = document.getElementById("user-score");
 const startScreen = document.querySelector(".start-screen");
 const startButton = document.getElementById("start-button");
@@ -50,14 +50,53 @@ const quizArray =
             id: "2",
             question: "Who invented Computer?",
             options: ["Charles Babbage", "Henry Luce", "Henry Babbage", "Charles Luce"],
-            correct: "Charless Babbage"
+            correct: "Charles Babbage"
+        },
+
+        {
+
+            id: "3",
+            question: "What is the approximate population of the earth in 2023?",
+            options: ["6 billion", "7 billion", "8 billion", "9 billion"],
+            correct: "8 billion"
         }
     ];
 
+//Restart Quiz
+restart.addEventListener("click", () => {
+    initial();
+    displayContainer.classList.remove("hide");
+    scoreContainer.classList.add("hide");
+});
 
-   
-// Timer
+//Next Button
+nextBtn.addEventListener(
+    "click",
+    (displayNext = () => {
+        //increment questionCount
+        questionCount += 1;
+        //if last question
+        if (questionCount == quizArray.length) {
+            //hide question container and display score
+            displayContainer.classList.add("hide");
+            scoreContainer.classList.remove("hide");
+            //user score
+            userScore.innerHTML =
+                "Your score is " + scoreCount + " out of " + questionCount;
+        } else {
+            //display questionCount
+            countOfQuestion.innerHTML =
+                questionCount + 1 + " of " + quizArray.length + " Question";
+            //display quiz
+            quizDisplay(questionCount);
+            count = 11;
+            clearInterval(countdown);
+            timerDisplay();
+        }
+    })
+);
 
+//Timer
 const timerDisplay = () => {
     countdown = setInterval(() => {
         count--;
@@ -65,16 +104,15 @@ const timerDisplay = () => {
         if (count == 0) {
             clearInterval(countdown);
             displayNext();
-        };
+        }
     }, 1000);
 };
 
 
 //Display quiz
-
 const quizDisplay = (questionCount) => {
     const quizCards = document.querySelectorAll(".container-mid");
-    //hide other cards
+    //Hide other cards
     quizCards.forEach((card) => {
         card.classList.add("hide");
     });
@@ -118,7 +156,7 @@ function checker(userOption) {
     const question =
         document.getElementsByClassName("container-mid")
         [questionCount];
-    const options = question.querySelectorAll("option-div");
+    const options = question.querySelectorAll(".option-div");
 
     // if user clicked answer == correct option stored in object
 
@@ -129,7 +167,7 @@ function checker(userOption) {
         userOption.classList.add("incorrect");
         // for making the correct option     
         options.forEach((element) => {
-            if (element.innerText == quizArray[queationCount].correct) {
+            if (element.innerText == quizArray[questionCount].correct) {
                 element.classList.add("correct");
             }
         });
