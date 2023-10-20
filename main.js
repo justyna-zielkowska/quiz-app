@@ -54,13 +54,15 @@ const quizArray =
         }
     ];
 
+
+   
 // Timer
 
 const timerDisplay = () => {
     countdown = setInterval(() => {
         count--;
         timeLeft.innerHTML = `${count}s`;
-        if ( count == 0) {
+        if (count == 0) {
             clearInterval(countdown);
             displayNext();
         };
@@ -108,6 +110,38 @@ function quizCreator() {
     };
 };
 
+
+// Function to check  if option is correct or not
+
+function checker(userOption) {
+    const userSolution = userOption.innerText;
+    const question =
+        document.getElementsByClassName("container-mid")
+        [questionCount];
+    const options = question.querySelectorAll("option-div");
+
+    // if user clicked answer == correct option stored in object
+
+    if (userSolution === quizArray[questionCount].correct) {
+        userOption.classList.add("correct");
+        scoreCount++;
+    } else {
+        userOption.classList.add("incorrect");
+        // for making the correct option     
+        options.forEach((element) => {
+            if (element.innerText == quizArray[queationCount].correct) {
+                element.classList.add("correct");
+            }
+        });
+    }
+
+    //clear interval (stop timer)
+    clearInterval(countdown);
+    //disable all options
+    options.forEach((element) => {
+        element.disabled == true
+    });
+}
 
 //initialize setup
 function initial() {
